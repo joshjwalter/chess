@@ -1,3 +1,4 @@
 # bit 0 is a1
 # bit 63 is h8
 # no snaking
+# a mini bitboard is a bit_byte (only white pawns or only black pawns etc)

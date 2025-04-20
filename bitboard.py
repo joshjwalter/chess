@@ -32,13 +32,31 @@ class Bitboard:
         self.board_array = [self.white_pawns, self.white_knights, self.white_bishops, self.white_rooks, self.white_queens, self.white_king,
                             self.black_pawns, self.black_knights, self.black_bishops, self.black_rooks, self.black_queens, self.black_king, self.white_pieces, self.black_pieces]
 
-# TODO: for some reason this doesn't work
+    def sync_boards(self):
+        for x in [self.white_pawns, self.white_knights, self.white_bishops, self.white_rooks, self.white_queens, self.white_king]:
+            self.white_pieces |= x
+        for x in [self.black_pawns, self.black_knights, self.black_bishops, self.black_rooks, self.black_queens, self.black_king]:
+            self.black_pieces |= x
+
     def clear_square(self, square):
         # EXAMPLE: x&= ~(1 << square)
         ## this line creates a number with all bits 0 except for the square that is being cleared
         ### it then flips all the bits in the number and ANDs it with the bitboard which clears the bit
-        for x in self.board_array:
-            x &= ~(1 << square)
+        self.white_pawns &= ~(1 << square)
+        self.white_knights &= ~(1 << square)
+        self.white_bishops &= ~(1 << square)
+        self.white_rooks &= ~(1 << square)
+        self.white_queens &= ~(1 << square)
+        self.white_king &= ~(1 << square)
+
+        self.black_pawns &= ~(1 << square)
+        self.black_knights &= ~(1 << square)
+        self.black_bishops &= ~(1 << square)
+        self.black_rooks &= ~(1 << square)
+        self.black_queens &= ~(1 << square)
+        self.black_king &= ~(1 << square)
+    
+        self.sync_boards()
         
     def move_piece(self, color, piece, start_square, end_square):
         ### WARNING: this function does not check for move availability!!!
@@ -93,3 +111,11 @@ class Bitboard:
                     raise Exception("Invalid Piece Type ( bitboard.py, move_piece() )")
         else:
             raise Exception("Invalid Piece Color ( bitboard.py, move_piece() )")
+
+    def output_index(self, bit_byte):
+        #creates an integer with only the bit flipped we are checking, does an and check and appends to final array if the result is greater than 1
+        found = []
+        for y in range(64):
+            if (bit_byte & (1 << y)) > 0:
+                found.append(y)
+        return found

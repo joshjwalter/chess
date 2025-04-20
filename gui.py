@@ -22,6 +22,7 @@ def load_icons():
     black_king = pygame.transform.scale2x(pygame.image.load(os.path.join("images", "white_king.png")))
 
 def display_position(position: list[int]):
+    global screen, clock, 
     pygame.init()
     screen = pygame.display.set_mode((800,800))
     clock = pygame.time.Clock()
@@ -37,20 +38,6 @@ def display_position(position: list[int]):
                     pygame.draw.rect(screen, white, pygame.Rect(x*100,y*100,100,100))
                 else:
                     pygame.draw.rect(screen, green, pygame.Rect(x*100,y*100,100,100))
-    
-    load_icons()
-    for x in range(12):
-        #finding what squares are occupied
-        found = []
-        for y in range(64):
-            checker = 2**y
-            if (checker & x) > 0:
-                found.append(y)
-        match x:
-            case 0:
-                for z in found:
-                    #starting at a1
-                    screen.blit(white_pawn, (-13+(z%8)*100, 690+math.floor(z/8)))
                    
          
     #screen.blit(white_pawn, (-13, -10))
@@ -62,4 +49,16 @@ def display_position(position: list[int]):
 
     clock.tick(60)
 
-    pygame.quit()
+def update_position():
+    load_icons()
+    for x in range(12):
+        found = []
+        for y in range(64):
+            checker = 2**y
+            if (checker & x) > 0:
+                found.append(y)
+        match x:
+            case 0:
+                for z in found:
+                    #starting at a1
+                    screen.blit(white_pawn, (-13+(z%8)*100, 690+math.floor(z/8)))
