@@ -109,8 +109,9 @@ class Bitboard:
                         self.black_king |= 1 << end_square
                 case _:
                     raise Exception("Invalid Piece Type ( bitboard.py, move_piece() )")
+            self.sync_boards()
         else:
-            raise Exception("Invalid Piece Color ( bitboard.py, move_piece() )")
+            raise Exception("Invalid Piece Color or Piece Type ( bitboard.py, move_piece() )")
 
     def output_index(self, bit_byte):
         #creates an integer with only the bit flipped we are checking, does an and check and appends to final array if the result is greater than 1

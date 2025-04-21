@@ -1,9 +1,4 @@
-import pytest
 from bitboard import Bitboard
-
-
-
-
 
 class TestBitboard:
     def test_clear_square(self):
@@ -29,3 +24,9 @@ class TestBitboard:
         test_output_board.move_piece("white", "pawn", 0, 8)
         test_output_board.move_piece("white", "pawn", 0, 9)
         assert test_output_board.output_index(test_output_board.white_pawns) == [8, 9]
+
+    def test_sync_boards(self):
+        test_sync_board = Bitboard()
+        test_sync_board.move_piece("white", "pawn", 0, 8)
+        test_sync_board.move_piece("black", "pawn", 0, 9)
+        assert ((test_sync_board.white_pieces == 256) and (test_sync_board.black_pieces == 512))
