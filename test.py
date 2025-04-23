@@ -30,3 +30,9 @@ class TestBitboard:
         test_sync_board.move_piece("white", "pawn", 0, 8)
         test_sync_board.move_piece("black", "pawn", 0, 9)
         assert ((test_sync_board.white_pieces == 256) and (test_sync_board.black_pieces == 512))
+
+    def test_to_fen(self):
+        test_to_fen_board = Bitboard()
+        test_to_fen_board.move_piece("white", "pawn", 0, 8)
+        test_to_fen_board.move_piece("black", "pawn", 0, 9)
+        assert test_to_fen_board.to_fen() == "8/8/8/8/8/8/p7/7P"

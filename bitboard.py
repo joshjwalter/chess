@@ -3,6 +3,7 @@ class Bitboard:
         # these are the bitboards for each type of piece
         # TODO: also maybe add en passant squares (youtube video)
         # TODO: should i create special moves like castling and en passant in this file or the higher level file?
+        # TODO: Do i create a Piece() class so i can make it a tuple and do I create a Move() class so I can make possible move lists?
 
         self.white_pawns = 0
         self.white_knights = 0
@@ -27,10 +28,17 @@ class Bitboard:
         self.black_pieces = 0
         for x in [self.black_pawns, self.black_knights, self.black_bishops, self.black_rooks, self.black_queens, self.black_king]: 
             self.black_pieces |= x
+        self.all_pieces = self.white_pieces | self.black_pieces
 
         # array of all bitboards
         self.board_array = [self.white_pawns, self.white_knights, self.white_bishops, self.white_rooks, self.white_queens, self.white_king,
-                            self.black_pawns, self.black_knights, self.black_bishops, self.black_rooks, self.black_queens, self.black_king, self.white_pieces, self.black_pieces]
+                            self.black_pawns, self.black_knights, self.black_bishops, self.black_rooks,
+                            self.black_queens, self.black_king, self.white_pieces, self.black_pieces, self.all_pieces]
+        # array of all bit pieces
+        self.bit_pieces = [self.white_pawns, self.white_knights, self.white_bishops, self.white_rooks,
+                           self.white_queens, self.white_king,
+                           self.black_pawns, self.black_knights, self.black_bishops, self.black_rooks,
+                           self.black_queens, self.black_king]
 
     def sync_boards(self):
         for x in [self.white_pawns, self.white_knights, self.white_bishops, self.white_rooks, self.white_queens, self.white_king]:
@@ -120,3 +128,88 @@ class Bitboard:
             if (bit_byte & (1 << y)) > 0:
                 found.append(y)
         return found
+
+    def check_piece(self, index):
+        piece = ["Color", "Piece"]
+        if index in self.output_index(self.white_pieces):
+            if index in self.output_index(self.white_pawns):
+                piece[0] = "White"
+                piece[1] = "Pawn"
+                return piece
+            elif index in self.output_index(self.white_knights):
+                piece[0] = "White"
+                piece[1] = "Knight"
+                return piece
+            elif index in self.output_index(self.white_bishops):
+                piece[0] = "White"
+                piece[1] = "Bishop"
+                return piece
+            elif index in self.output_index(self.white_rooks):
+                piece[0] = "White"
+                piece[1] = "Rook"
+                return piece
+            elif index in self.output_index(self.white_queens):
+                piece[0] = "White"
+                piece[1] = "Queen"
+                return piece
+            elif index in self.output_index(self.white_king):
+                piece[0] = "White"
+                piece[1] = "King"
+                return piece
+        elif index in self.output_index(self.black_pieces):
+            if index in self.output_index(self.black_pawns):
+                piece[0] = "Black"
+                piece[1] = "Pawn"
+                return piece
+            elif index in self.output_index(self.black_knights):
+                piece[0] = "Black"
+                piece[1] = "Knight"
+                return piece
+            elif index in self.output_index(self.black_bishops):
+                piece[0] = "Black"
+                piece[1] = "Bishop"
+                return piece
+            elif index in self.output_index(self.black_rooks):
+                piece[0] = "Black"
+                piece[1] = "Rook"
+                return piece
+            elif index in self.output_index(self.black_queens):
+                piece[0] = "Black"
+                piece[1] = "Queen"
+                return piece
+            elif index in self.output_index(self.black_king):
+                piece[0] = "Black"
+                piece[1] = "King"
+                return piece
+        else:
+            return None
+
+    def to_fen(self):
+        fen = ""
+        # <Piece Placement>
+        piece_conversion = {
+            "WhitePawn": "P",  # white pawns
+            "WhiteKnight": "N",  # white knights
+            "WhiteBishop": "B",  # white bishops
+            "WhiteRook": "R",  # white rooks
+            "WhiteQueen": "Q",  # white queens
+            "WhiteKing": "K",  # white king
+            "BlackPawn": "p",  # black pawns
+            "BlackKnight": "n",  # black knights
+            "BlackBishop": "b",  # black bishops
+            "BlackRook": "r",  # black rooks
+            "BlackQueen": "q",  # black queens
+            "BlackKing": "k"  # black king
+        }
+        # total = 64
+        # counter = 0
+        # square_empty = False
+        # for y in range (1,8):
+        #    for x in range (1,8):
+
+        # <Side to move>
+        # <Castling ability>
+        # <En passant target square>
+        # <Halfmove clock>
+        # <Fullmove counter>
+        return fen
